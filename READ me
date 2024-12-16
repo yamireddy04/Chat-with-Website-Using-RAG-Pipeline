@@ -23,7 +23,6 @@ o Perform a similarity search in the vector database to retrieve the most releva
 chunks.
 o Pass the retrieved chunks to the LLM along with a prompt or agentic context to
 generate a detailed response.
-o
 3. Response Generation
 • Input: Relevant information retrieved from the vector database and the user query.
 • Process:
