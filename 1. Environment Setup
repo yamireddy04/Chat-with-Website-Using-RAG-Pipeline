@@ -4,3 +4,4 @@ Web Scraping: requests, BeautifulSoup, selenium (for JavaScript-heavy sites)
 Embeddings: sentence-transformers
 Vector Database: FAISS, Weaviate, or Pinecone
 LLM Integration: OpenAI's GPT or HuggingFace transformers.
+pip install requests beautifulsoup4 selenium sentence-transformers faiss-cpu openai
