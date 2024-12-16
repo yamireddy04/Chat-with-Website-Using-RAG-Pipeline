@@ -1,0 +1,24 @@
+For structured data (e.g., tables, lists):
+
+//Parse specific HTML elements (<table>, <tr>, <td>).
+//Extract and format the data into Python dictionaries or Pandas DataFrames.
+
+import pandas as pd
+
+def extract_table(soup):
+    # Extract HTML table
+    table = soup.find('table')
+    rows = table.find_all('tr')
+    
+    # Parse rows into a structured format
+    data = []
+    for row in rows:
+        cells = row.find_all(['td', 'th'])
+        data.append([cell.get_text(strip=True) for cell in cells])
+    
+    # Convert to Pandas DataFrame for easier manipulation
+    return pd.DataFrame(data[1:], columns=data[0])
+
+# Example: Extract a table
+table_data = extract_table(soup)
+print(table_data)
