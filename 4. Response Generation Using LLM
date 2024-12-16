@@ -1,0 +1,26 @@
+//Pass the retrieved chunks to the LLM for a detailed and accurate response.
+import openai
+
+# Set OpenAI API Key
+openai.api_key = "your_openai_api_key"
+
+def generate_response(query, relevant_chunks):
+    # Build a detailed prompt
+    prompt = f"User Query: {query}\n\nRelevant Information:\n"
+    for chunk in relevant_chunks:
+        prompt += f"- {chunk}\n"
+    prompt += "\nBased on this information, provide a detailed response."
+
+    # Call OpenAI's API
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are an AI assistant knowledgeable about websites."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+    return response['choices'][0]['message']['content']
+
+# Example: Generate a response
+response = generate_response(query, relevant_data)
+print(response)
