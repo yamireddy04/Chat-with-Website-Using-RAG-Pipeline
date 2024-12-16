@@ -1,0 +1,45 @@
+This step involves extracting text and metadata, chunking it, creating embeddings, and storing them in a vector database.
+import requests
+from bs4 import BeautifulSoup
+from sentence_transformers import SentenceTransformer
+import faiss
+import json
+
+# Load embedding model
+embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+
+# Initialize FAISS Vector Store
+dimension = 384  # Embedding dimension for 'all-MiniLM-L6-v2'
+index = faiss.IndexFlatL2(dimension)
+
+# Function to scrape and ingest data
+def scrape_and_ingest(url):
+    # Scrape website content
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    # Extract content (customize tags as needed)
+    content = []
+    for paragraph in soup.find_all(['p', 'h1', 'h2', 'h3', 'li']):
+        text = paragraph.get_text(strip=True)
+        if text:
+            content.append(text)
+    
+    # Chunk content for granularity
+    chunks = [content[i:i+5] for i in range(0, len(content), 5)]  # Adjust chunk size
+    
+    # Convert chunks to embeddings
+    chunk_texts = [' '.join(chunk) for chunk in chunks]
+    embeddings = embedding_model.encode(chunk_texts)
+    index.add(embeddings)
+    
+    # Save metadata
+    metadata = [{'chunk': chunk, 'url': url} for chunk in chunk_texts]
+    with open("metadata.json", "a") as f:
+        json.dump(metadata, f)
+    
+    return index
+
+# Example: Scrape and ingest a website
+url = "https://example.com"
+vector_index = scrape_and_ingest(url)
