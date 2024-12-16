@@ -1,0 +1,6 @@
+Install required libraries:
+
+Web Scraping: requests, BeautifulSoup, selenium (for JavaScript-heavy sites)
+Embeddings: sentence-transformers
+Vector Database: FAISS, Weaviate, or Pinecone
+LLM Integration: OpenAI's GPT or HuggingFace transformers.
