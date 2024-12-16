@@ -1,0 +1,7 @@
+
+def generate_tabular_response(table_data):
+    # Convert DataFrame to a string table format
+    return table_data.to_markdown(index=False)
+
+# Example: Format a structured response
+print(generate_tabular_response(table_data))
